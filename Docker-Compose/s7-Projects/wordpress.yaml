@@ -1,0 +1,42 @@
+version: '3.3'
+
+services:
+  mysql_container:
+    image: mysql:8.2.0
+    container_name: mysql_container
+    hostname: aj_server_mysql
+    restart: always
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: example_root_password
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress_user
+      MYSQL_PASSWORD: example_password
+    networks:
+      - s7_network
+
+
+  wordpress_container:
+    image: wordpress:php8.3
+    container_name: wordpress_container
+    hostname: aj_server_word
+    restart: always
+    depends_on:
+      - mysql_container
+    ports:
+      - "8000:80"
+    environment:
+      WORDPRESS_DB_HOST: mysql_container
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_USER: wordpress_user
+      WORDPRESS_DB_PASSWORD: example_password
+      WORDPRESS_TABLE_PREFIX: wp_
+    networks:
+      - s7_network
+
+networks:
+  s7_network:  
+
+volumes:
+  db_data:

@@ -1,0 +1,62 @@
+version: '3.2'
+
+services:
+  vote:
+    image: dockersamples/examplevotingapp_vote
+    depends_on:
+      - redis
+    ports:
+      - "6000:80"
+    restart: always
+    networks:
+      - front-tier
+      - back-tier
+
+  result:
+    image: dockersamples/examplevotingapp_result
+    depends_on:
+      - db
+    ports:
+      - "6001:80"
+    restart: always
+    networks:
+      - front-tier
+      - back-tier
+
+  worker:
+    image: dockersamples/examplevotingapp_worker
+    depends_on:
+      - redis
+      - db
+    restart: always
+    networks:
+      - back-tier
+
+  redis:
+    image: redis:alpine
+    environment:
+      REDIS_USER: redis 
+      REDIS_PASSWORD: redis
+    volumes:
+      - redis-data:/data
+    restart: always
+    networks:
+      - back-tier
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    restart: always
+    networks:
+      - back-tier
+
+volumes:
+  db-data:
+
+networks:
+  front-tier:
+  back-tier:
