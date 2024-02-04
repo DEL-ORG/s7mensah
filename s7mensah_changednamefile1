@@ -4,13 +4,12 @@ services:
     image: python:3.9
     ports:
       - "5000:5000"
-    volumes:
-      - ./app:/app
+  
     environment:
       - FLASK_APP=app.py
       - FLASK_RUN_HOST=0.0.0.0
     command: flask run
-
+Add remove
   redis:
     image: "redis:alpine"
 
