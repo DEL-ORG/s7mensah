@@ -34,5 +34,5 @@ services:
     command: npm start
 
   database:
- docker-compose up
+
 
