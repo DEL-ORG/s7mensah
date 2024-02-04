@@ -13,4 +13,5 @@ Add remove
   redis:
     image: "redis:alpine"
 
-
+mkdir ~/Downloads/GITHUB/ ; echo s7 > ~/Downloads/GITHUB/file.tx
+ mkdir 
